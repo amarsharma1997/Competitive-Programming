@@ -1,0 +1,30 @@
+SET:-
+  
+It stores distinct elements of the same datatype. It stores them in a sorted order.
+Search:- O(logn)
+Insert:- O(logn)
+
+Declaration:-
+	
+	set<data type (user defined or fundamental) > s; 
+	
+Set iterator :-
+	set<data type (user defined or fundamental) >::iterator it;
+		here "it" is iterator name.
+
+Function:-
+1) s.begin()- returns the address of the first element in the set.
+2) s.end() - returns the address where set ends.
+3) s.insert(x) - inserts element x in the set if that doesn't exist in the set.
+4) s.erase(x) - deletes x from the set.
+5) s.find(x) - returns the address of x.
+
+
+Accessing set elements one by one:-
+
+for(it=s.begin();it!=s.end();it++)
+{
+	//it holds the address of the elements.
+}		
+
+

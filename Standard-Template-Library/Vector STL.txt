@@ -1,0 +1,19 @@
+Vector:- 
+
+Vector is a list of elements which has a dynamic size unlike array but it has contiguous memory allocation
+Same as array. 
+
+Declaring a vector:-    vector< data type(user defined or fundamental) > v;
+
+Accessing vector elements:- since it has contiguous memory allocation it can be accessed as v[i] which represents
+i+1th element of the vector..
+
+Some functions associated with vector:-
+
+1) v.size() -returns size of vector.
+2) v.push_back(x) - pushes x at the end of the vector.
+3) v.pop_back() - pops the last element of the vector.
+4) v.back()  - returns last element of the vector.
+5) v.begin() -address of the first element of the vector.
+6) v.end() - returns address where the vector ends (if the last address is x then it will return x+ sizeof(element)).
+
