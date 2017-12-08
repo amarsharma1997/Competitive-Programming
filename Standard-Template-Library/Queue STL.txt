@@ -9,5 +9,5 @@ Functions:-
 
 1) q.front() - returns the front element of the queue.
 2) q.push(x) - push x in the queue.
-3) q.pop() - pop x from the queue.
+3) q.pop() - pop the first element of the queue.
 4) q.empty() - returns true if queue is empty.	
