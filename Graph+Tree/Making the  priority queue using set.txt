@@ -1,0 +1,31 @@
+This can be done by overloading the operator < and writing the function for that.....
+
+
+
+suppose we are implementing dijkstra's algorithm and in dijkstra's algorithm the priority is given according to the 
+distance from the starting node.The node which is nearer to the starting node gets higher priority.. 
+
+So we can't overload the operator for the fundamental data types so here we create a structure which stores the index of
+the node (v) and the distance (d) from the starting node.....
+
+struct node
+{
+	int v,d;
+}
+
+so we write the function as:-
+
+
+bool operator<(node a,node b)
+{
+	if(a.d==b.d)//If two nodes have same distance than give higher priority to the node with least index.....
+	{	
+		return (a.v<b.v);
+	}
+	return (a.d<b.d); //else give higher priority to node which has small d.....
+};  
+
+
+now here we will be using set<node > q;
+instead of queue<long int > q; 
+in the code of BFS.....
