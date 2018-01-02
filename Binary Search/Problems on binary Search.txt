@@ -1,6 +1,6 @@
 Spoj Problems:-
 1) given an array with consecutive 0's and then consecutive 1's try to find the first 1 and the
-last 0 in o(logn) time complexity..   
+last 0 in O(logn) time complexity..   
 2) Count the pairs
 3) Audition
 4) Eko
