@@ -1,0 +1,97 @@
+/////////*            MO's ALGORITHM          *///////////
+////Solution of DQuery Spoj////////////// 
+ 
+#include<bits/stdc++.h>
+
+using namespace std;
+int F[1000007],BLOCK_SIZE;
+ 
+long int a[30007];
+struct query
+{
+    int l,r;
+    long int index;
+}p[200007];
+ 
+bool compare(query a, query b)
+{
+    int ax = a.l/BLOCK_SIZE;
+    int bx = b.l/BLOCK_SIZE;
+    if (ax != bx)
+        {
+            return ax < bx;
+        }
+    return a.r < b.r;
+};
+ 
+int main()
+{
+   int n,st,en;
+   long int i,q;
+   scanf("%d",&n);
+   BLOCK_SIZE = (sqrt(n));
+   for(i=1;i<=n;i++)
+   {
+     scanf("%ld",&a[i]);
+   }
+   scanf("%ld",&q);
+   for(i=0;i<q;i++)
+   {
+       scanf("%d %d",&p[i].l,&p[i].r);
+       p[i].index=i;
+   }
+   int result[q];
+ 
+   sort(p, p+q, compare);
+   long int count=0;
+   st=1;
+   en=0;
+   int left,right;
+   for(i=0;i<q;i++)
+   {
+      left=p[i].l;
+      right=p[i].r;
+      while(st<left)
+      {
+       F[a[st]]--;
+       if(F[a[st]]==0)
+       {
+           count--;
+       }
+       st++;
+      }
+      while(st>left)
+      {
+       st--;
+       F[a[st]]++;
+       if(F[a[st]]==1)
+       {
+           count++;
+       }
+      }
+      while(en<right)
+      {
+       en++;
+       F[a[en]]++;
+       if(F[a[en]]==1)
+       {
+           count++;
+       }
+      }
+      while(en>right)
+      {
+       F[a[en]]--;
+       if(F[a[en]]==0)
+       {
+           count--;
+       }
+       en--;
+      }
+      result[p[i].index]=count;
+   }
+   for(i=0;i<q;i++)
+   {
+       printf("%ld\n",result[i]);
+   }
+   return 0;
+}
