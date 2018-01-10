@@ -1,0 +1,100 @@
+/*Segment tree for range sum query and update*/
+/*update(p,st,en,l,r,val):- here p is the index of current node(segment tree) which stores values of array index range [st,en]
+                            and val should be added to each element of array from index l to r*/
+/*query(p,st,en,l,r):- Query the sum of elements of the array which has index from l to r*/
+
+int n;//n is size of the array for which we are building segment tree.....
+int seg[4*n];//For storing the values on nodes of segment tree.....
+int delay[4*n];//For delay in lazy propagation.We will push the value to its child nodes when required.....
+
+
+void build(int p,int st,int en)
+{
+    //Building the segment tree p=node index which stores the value of range [st,en].....
+    //if the node is leaf node then stop because that node will be storing the value of single node because st==en and return
+    //if it's not a leaf then build the left(2*p) subtree and right(2*p+1) subtree then store the value at node p
+    if(st==en)
+    {
+        seg[p]=array[st];//val is the value which is to be stored on the st'th node of the seg tree.....
+        return ;
+    }
+    int mid=(st+en)/2;
+    build(2*p,st,mid);
+    build(2*p+1,mid+1,en);
+    seg[p]=seg[2*p]+seg[2*p+1];
+};
+
+int query(int p,int st,int en,int l,int r)
+{
+    ///Below if block is needed only in lazy propagation
+    //If there is any delay at node p then propagate the delay to it's child 2*p and 2*p+1 and make delay[p]=0.....
+    if(delay[p]>0)
+    {
+        delay[2*p]+=delay[p];
+        delay[2*p+1]+=delay[p];
+        delay[p]=0;
+    }
+    //There are three cases consider we want sum from array[6] to array[15] then l=6 and r=10
+    //Case 1:- Suppose p stores sum of elements from array[3] to array[5] then processing p is worthless
+               //because we don't need array[3] or array[4] or array[5] so we should return 0 from here....
+    //Case 2:- Suppose p stores sum of elements from array[5] to array[8] and if we add the value at node p which is sum[5,8]
+               //then it is not good because we are adding array[5] which we don't need so proceed to the children of node p...
+    //Case 3:- Suppose p stores sum of elements from array[9] to array[12] so we can directly add the value of node p and return
+               //because it's left child 2*p will be having sum[9,10] and sum[11,12] so we can directly add value at node p and return
+
+
+    //Case 1:-
+    if((en<l)||(r<st))
+    {
+        return 0;
+    }
+    //Case 3:-
+    if((l<=st)&&(en<=r))
+    {
+        return seg[p];
+    }
+    //Case 2:-
+    int mid=(st+en)/2,res;
+    res=query(2*p,st,mid,l,r);
+    res+=query(2*p+1,mid+1,l,r);
+    return res;
+};
+
+void update(int p,int st,int en,int l,int r)
+{
+    ///Below if block is needed only in lazy propagation
+    //If there is any delay at node p then propagate the delay to it's child 2*p and 2*p+1 and make delay[p]=0.....
+    if(delay[p]>0)
+    {
+        delay[2*p]+=delay[p];
+        delay[2*p+1]+=delay[p];
+        delay[p]=0;
+    }
+    //There are three cases consider we want to update array[6] to array[15] then l=6 and r=10
+    //Case 1:- Suppose p stores sum of elements from array[3] to array[5] then we should return because we don't have
+               //update for range[3,5].
+    //Case 2:- Suppose p stores sum of elements from array[5] to array[8] then we can't update node p directly because there is no
+              //update for node 5 so proceed to the left and right child of node p...
+    //Case 3:- Suppose p stores sum of elements from array[9] to array[12] so we can directly update node p and return
+
+
+    //Case 1:-
+    if((en<l)||(r<st))
+    {
+        return ;
+    }
+    //Case 3:-
+    if((l<=st)&&(en<=r))
+    {
+        //we are adding val in each elements from st to en then val should be added (en-st+1) times in the seg[p]
+        seg[p]+=(en-st+1)*val;
+        delay[2*p]+=val;
+        delay[2*p+1]+=val;
+        return ;
+    }
+    //Case 2:-
+    int mid=(st+en)/2;
+    update(2*p,st,mid,l,r,val);//left subtree
+    update(2*p+1,mid+1,en,l,r,val);//right subtree
+    seg[p]=seg[2*p]+seg[2*p+1];//the value of seg[p] will be changed because there is update for array indexes which are in range[st,en]
+};
